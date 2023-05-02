@@ -83,48 +83,48 @@ const RUKEY = [
   ],
   [
     "Tab",
-    "q",
-    "w",
-    "e",
-    "r",
-    "t",
-    "y",
-    "u",
-    "i",
-    "o",
-    "p",
-    ["[", "{"],
-    ["]", "}"],
+    "й",
+    "ц",
+    "у",
+    "к",
+    "е",
+    "н",
+    "г",
+    "ш",
+    "щ",
+    "з",
+    "х",
+    "ъ",
     ["\\", "|"],
     "Delete",
   ],
   [
     "CapsLock",
-    "a",
-    "s",
-    "d",
-    "f",
-    "g",
-    "h",
-    "j",
-    "k",
-    "l",
-    [";", ":"],
-    ["'", '"'],
+    "ф",
+    "ы",
+    "в",
+    "а",
+    "п",
+    "р",
+    "о",
+    "л",
+    "д",
+    ["ж"],
+    ["э"],
     "Enter",
   ],
   [
     "Shift",
-    "z",
-    "x",
-    "c",
-    "v",
-    "b",
-    "n",
-    "m",
-    [",", "<"],
-    [".", ">"],
-    ["/", "?"],
+    "я",
+    "ч",
+    "с",
+    "м",
+    "и",
+    "т",
+    "ь",
+    "б",
+    "ю",
+    [".", ","],
     "▲",
     "Shift",
   ],
@@ -156,11 +156,12 @@ class KeyBody {
     const keyBoard = this.keyBoard;
     // console.log(keyBoard)
     let langKey = [];
-    if (localStorage.getItem("language") === "en") {
-      langKey = ENKEY;
-    } else {
+    if (localStorage.getItem("language") === "ru") {
       langKey = RUKEY;
+    } else {
+      langKey = ENKEY;
     }
+    // console.log(localStorage.getItem("language"));
     // console.log(langKey);
     for (let row = 0; row < langKey.length; row++) {
       const newKeyBoard = {};
@@ -169,9 +170,8 @@ class KeyBody {
       newKeyBoard.keyDiv.classList.add(`key-row-${row}`);
       // keyBoard.append(newKeyBoard.keyDiv);
       for (let colum = 0; colum < langKey[row].length; colum++) {
-        
-        let item = '';
-        if (typeof langKey[row][colum] === 'object') {
+        let item = "";
+        if (typeof langKey[row][colum] === "object") {
           let elem = langKey[row][colum][0];
           item = elem;
         } else {
@@ -180,34 +180,39 @@ class KeyBody {
         }
         // console.log(item);
 
-        
-        newKeyBoard.button = document.createElement('div');
+        newKeyBoard.button = document.createElement("div");
         newKeyBoard.button.textContent = item;
-        newKeyBoard.button.classList.add('btn');
-        if (newKeyBoard.button.textContent === ' ') {
-          newKeyBoard.button.style.paddingLeft = '180px';
-          newKeyBoard.button.style.paddingRight = '180px';
-        } else if (newKeyBoard.button.textContent === 'Shift') {
-          newKeyBoard.button.style.paddingLeft = '50px';
-          newKeyBoard.button.style.paddingRight = '50px';
+        newKeyBoard.button.classList.add("btn");
+        if (newKeyBoard.button.textContent === " ") {
+          newKeyBoard.button.style.paddingLeft = "180px";
+          newKeyBoard.button.style.paddingRight = "180px";
+        } else if (newKeyBoard.button.textContent === "Shift") {
+          newKeyBoard.button.style.paddingLeft = "50px";
+          newKeyBoard.button.style.paddingRight = "50px";
         }
         //   console.log(newKeyBoard.button);
         newKeyBoard.keyDiv.append(newKeyBoard.button);
         // keyBoard.append(newKeyBoard.button);
-        
       }
       keyBoard.append(newKeyBoard.keyDiv);
     }
-  };
+  }
 
-  // outputkey() {
-  
-  // }
+  actions(event) {
+    const buttonsCollection = document.querySelectorAll('.button');
+    const currentBtn = event.target.closest('.button');
+    
+
+
+  }
 
 }
 
 const newKey = new KeyBody();
 newKey.receiveKey();
 
+newKey.keyBoard.addEventListener("click", (event) => {
+  newKey.actions(event);
+})
 // const newKey = new KeyBody();
 export default newKey;
