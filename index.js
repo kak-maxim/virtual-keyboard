@@ -133,7 +133,6 @@ const RUKEY = [
 
 class KeyBody {
   constructor() {
-    // console.log(this);
     this.main = document.createElement("main");
     this.main.classList.add("main");
     this.title = document.createElement("h1");
@@ -154,41 +153,56 @@ class KeyBody {
     document.body.prepend(this.main);
   }
   receiveKey() {
-    const keyBoard = this;
+    const keyBoard = this.keyBoard;
+    // console.log(keyBoard)
     let langKey = [];
     if (localStorage.getItem("language") === "en") {
       langKey = ENKEY;
     } else {
       langKey = RUKEY;
     }
-
-    for (let Row = 0; Row < langKey.length; Row++) {
-      for (let colom = 0; colom < keys[Row].length; colom++) {
-        let value = "";
-        if (typeof keys[Row][colom] === "object") {
-          let item = keys[Row][colom][0];
-          value = item;
-          item = 0;
+    // console.log(langKey);
+    for (let row = 0; row < langKey.length; row++) {
+      const newKeyBoard = {};
+      newKeyBoard.keyDiv = document.createElement("div");
+      newKeyBoard.keyDiv.classList.add("key-row");
+      newKeyBoard.keyDiv.classList.add(`key-row-${row}`);
+      // keyBoard.append(newKeyBoard.keyDiv);
+      for (let colum = 0; colum < langKey[row].length; colum++) {
+        
+        let item = '';
+        if (typeof langKey[row][colum] === 'object') {
+          let elem = langKey[row][colum][0];
+          item = elem;
         } else {
-          let item = keys[Row][colom];
-          value = item;
-          item = 0;
+          let elem = langKey[row][colum];
+          item = elem;
         }
-        const newKey = {};
-        newKey.button = document.createElement("div");
-        newKey.button.textContent = value;
-        newKey.button.classList.add("keyButton");
-        newKey.button.classList.add("button");
-        keyBoard.append(newKey.button);
+        // console.log(item);
+
+        
+        newKeyBoard.button = document.createElement('div');
+        newKeyBoard.button.textContent = item;
+        newKeyBoard.button.classList.add('btn');
+        if (newKeyBoard.button.textContent === ' ') {
+          newKeyBoard.button.style.paddingLeft = '180px';
+          newKeyBoard.button.style.paddingRight = '180px';
+        } else if (newKeyBoard.button.textContent === 'Shift') {
+          newKeyBoard.button.style.paddingLeft = '50px';
+          newKeyBoard.button.style.paddingRight = '50px';
+        }
+        //   console.log(newKeyBoard.button);
+        newKeyBoard.keyDiv.append(newKeyBoard.button);
+        // keyBoard.append(newKeyBoard.button);
+        
       }
+      keyBoard.append(newKeyBoard.keyDiv);
     }
-  }
+  };
 
-  outputkey() {
-    
-
-
-  }
+  // outputkey() {
+  
+  // }
 
 }
 
