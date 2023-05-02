@@ -199,20 +199,46 @@ class KeyBody {
   }
 
   actions(event) {
-    const buttonsCollection = document.querySelectorAll('.button');
-    const currentBtn = event.target.closest('.button');
+    const btnsCollection = document.querySelectorAll(".button");
+    const currentBtn = event.target.closest(".button");
+    if (!currentBtn) return;
+    currentBtn.classList.add("btn-active");
+    setTimeout(() => {
+      currentBtn.classList.remove("btn-active");
+    }, 150);
     
-
-
   }
-
 }
 
 const newKey = new KeyBody();
 newKey.receiveKey();
 
+document.addEventListener("keydown", (event) => {
+  const btnsCollection = document.querySelectorAll(".btn");
+  btnsCollection.forEach((btn) => {
+    if (
+      btn.textContent === event.key ||
+      btn.textContent.toUpperCase() === event.key
+    ) {
+      btn.classList.add("btn-active");
+    }
+  });
+});
+
+document.addEventListener("keyup", (event) => {
+  const btnsCollection = document.querySelectorAll(".btn");
+  btnsCollection.forEach((btn) => {
+    if (
+      btn.textContent === event.key ||
+      btn.textContent.toUpperCase() === event.key
+    ) {
+      btn.classList.remove("btn-active");
+    }
+  });
+});
+
 newKey.keyBoard.addEventListener("click", (event) => {
   newKey.actions(event);
-})
+});
 // const newKey = new KeyBody();
 export default newKey;
