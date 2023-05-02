@@ -51,6 +51,6 @@ class KeyBody {
     this.main.append(this.botomtxt);
     document.body.prepend(this.main);
   }
-
+}
  // const newKey = new KeyBody();
   export default newKey;

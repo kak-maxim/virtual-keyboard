@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+ul {
+    list-style: none;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.textarea {
+    width: 800px;
+    height: 200px;
+    border: 2px solid darkgray;
+    border-radius: 5px;
+}
+
+.button {
+    pad: 15px;
+}
