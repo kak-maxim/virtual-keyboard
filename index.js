@@ -131,7 +131,7 @@ const RUKEY = [
   ["Ctrl", "Win", "Alt", " ", "Alt", "◄", "▼", "►", "Ctrl"],
 ];
 
-class KeyBody {
+class keyBody {
   constructor() {
     this.main = document.createElement("main");
     this.main.classList.add("main");
@@ -152,6 +152,49 @@ class KeyBody {
     this.main.append(this.bottxt);
     document.body.prepend(this.main);
   }
+
+  insertTextCursor(event) {
+    const textarea = document.querySelector(".textarea");
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    textarea.setRangeText(event, start, end, "end");
+  }
+
+  handleButtonClick(event) {
+    const btn = event.target;
+    const textarea = document.querySelector(".textarea");
+    const keyValue = btn.textContent;
+
+    if (keyValue === "Backspace") {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      if (start === end) {
+        textarea.setRangeText("", start - 1, end, "end");
+      } else {
+        textarea.setRangeText("", start, end, "end");
+      }
+    } else if (keyValue === "Enter") {
+      this.insertTextCursor("\n");
+    } else if (keyValue === "Tab") {
+      this.insertTextCursor("\t");
+    } else if (keyValue === " ") {
+      this.insertTextCursor(" ");
+    } else if (
+      keyValue !== "Shift" &&
+      keyValue !== "Ctrl" &&
+      keyValue !== "Alt" &&
+      keyValue !== "Win" &&
+      keyValue !== "CapsLock" &&
+      keyValue !== "Delete" &&
+      keyValue !== "▲" &&
+      keyValue !== "►" &&
+      keyValue !== "◄" &&
+      keyValue !== "▼"
+    ) {
+      this.insertTextCursor(keyValue);
+    }
+  }
+
   receiveKey() {
     const textarea = document.querySelector(".textarea");
     textarea.focus();
@@ -198,6 +241,7 @@ class KeyBody {
       }
       keyBoard.append(newKeyBoard.keyDiv);
     }
+    this.actionsclick();
   }
 
   actionsKeyup(event) {
@@ -206,24 +250,24 @@ class KeyBody {
     currentBtn.classList.add("btn-active");
     setTimeout(() => {
       currentBtn.classList.remove("btn-active");
-    }, 150);    
+    }, 150);
   }
 
   actionsclick() {
     const btnColection = document.querySelectorAll(".btn");
     btnColection.forEach((btn) => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (event) => {
         btn.classList.add("btn-active");
         setTimeout(() => {
           btn.classList.remove("btn-active");
         }, 200);
-      }); 
+        this.handleButtonClick(event);
+      });
     });
   }
-
 }
 
-const newKey = new KeyBody();
+const newKey = new keyBody();
 newKey.receiveKey();
 
 document.addEventListener("keydown", (event) => {
@@ -254,9 +298,5 @@ newKey.keyBoard.addEventListener("keyup", (event) => {
   newKey.actionsKeyup(event);
 });
 
-newKey.keyBoard.addEventListener("click", () => {
-  newKey.actionsclick();
-});
-
-// const newKey = new KeyBody();
+// const newKey = new keyBody();
 export default newKey;
