@@ -153,10 +153,12 @@ class KeyBody {
     document.body.prepend(this.main);
   }
   receiveKey() {
+    const textarea = document.querySelector(".textarea");
+    textarea.focus();
     const keyBoard = this.keyBoard;
     // console.log(keyBoard)
     let langKey = [];
-    if (localStorage.getItem("language") === "ru") {
+    if (localStorage.getItem("language") === "en") {
       langKey = RUKEY;
     } else {
       langKey = ENKEY;
@@ -198,16 +200,27 @@ class KeyBody {
     }
   }
 
-  actions(event) {
-    const btnsCollection = document.querySelectorAll(".button");
+  actionsKeyup(event) {
     const currentBtn = event.target.closest(".button");
     if (!currentBtn) return;
     currentBtn.classList.add("btn-active");
     setTimeout(() => {
       currentBtn.classList.remove("btn-active");
-    }, 150);
-    
+    }, 150);    
   }
+
+  actionsclick() {
+    const btnColection = document.querySelectorAll(".btn");
+    btnColection.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        btn.classList.add("btn-active");
+        setTimeout(() => {
+          btn.classList.remove("btn-active");
+        }, 200);
+      }); 
+    });
+  }
+
 }
 
 const newKey = new KeyBody();
@@ -237,8 +250,13 @@ document.addEventListener("keyup", (event) => {
   });
 });
 
-newKey.keyBoard.addEventListener("click", (event) => {
-  newKey.actions(event);
+newKey.keyBoard.addEventListener("keyup", (event) => {
+  newKey.actionsKeyup(event);
 });
+
+newKey.keyBoard.addEventListener("click", () => {
+  newKey.actionsclick();
+});
+
 // const newKey = new KeyBody();
 export default newKey;
